@@ -23,5 +23,3 @@ class Tile(pygame.sprite.Sprite):
         self.image = Tile.images[tile_name]
         self.tile_name = tile_name
         self.rect = self.image.get_rect().move(tile_position[0], tile_position[1])
-
-

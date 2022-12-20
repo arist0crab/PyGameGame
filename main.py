@@ -9,11 +9,38 @@ pygame.mixer.init()
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 clock = pygame.time.Clock()
 FPS = 30
+WIDTH, HEIGHT = pygame.display.get_surface().get_size()
 running = True
 # endregion
 
-level_1 = Level()
+hero_animations = [
+    [
+        'static/player_animations/player_anim_right_1.png',
+        'static/player_animations/player_anim_right_2.png',
+        'static/player_animations/player_anim_right_1.png',
+        'static/player_animations/player_anim_right_2.png'
+    ],
+    [
+        'static/player_animations/player_anim_left_1.png',
+        'static/player_animations/player_anim_left_2.png',
+        'static/player_animations/player_anim_left_1.png',
+        'static/player_animations/player_anim_left_2.png'
+    ],
+    [
+        'static/player_animations/player_standing_right_1.png',
+        'static/player_animations/player_standing_right_1.png',
+        'static/player_animations/player_standing_right_2.png',
+        'static/player_animations/player_standing_right_2.png',
+    ],
+    [
+        'static/player_animations/player_standing_left_1.png',
+        'static/player_animations/player_standing_left_1.png',
+        'static/player_animations/player_standing_left_2.png',
+        'static/player_animations/player_standing_left_2.png',
+    ]
+]
 
+level_1 = Level(hero_animations)
 
 """Main cycle of the game"""
 while running:
@@ -28,7 +55,7 @@ while running:
                 running = False
 
     screen.fill('black')
-    level_1.draw(screen)
+    level_1.draw(screen, (WIDTH, HEIGHT))
 
     pygame.display.update()
     pygame.display.flip()
