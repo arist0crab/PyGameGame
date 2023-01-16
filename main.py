@@ -3,10 +3,15 @@
 import pygame
 from level_class import Level
 
+from enemy_charge import Charge
+
 # region variables, constants, and settings of the game
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+pygame.mouse.set_visible(False)  # making mouse invisible
+# size = width, height = 500, 500
+# screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 FPS = 30
 WIDTH, HEIGHT = pygame.display.get_surface().get_size()
@@ -40,7 +45,8 @@ hero_animations = [
     ]
 ]
 
-level_1 = Level(hero_animations)
+level_1 = Level(screen, hero_animations, 10)
+
 
 """Main cycle of the game"""
 while running:

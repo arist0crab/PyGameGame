@@ -1,11 +1,12 @@
 import pygame
+
 from converting_list_to_map_function import convert_list_to_level
 from dungeon_procedural_generation_algorithm import dungeon_generation, grid
 from camera_class import Camera
+from random import choices
 
 
 class Level:
-
     """
     Creating Level class.
     In __init__ we're initializing sprites tile_group and level_sprites_group.
@@ -13,7 +14,7 @@ class Level:
 
     dungeon_generation()
 
-    def __init__(self, player_animations):
+    def __init__(self, screen, player_animations, enemies_quantity):
         """Creating sprite groups of tiles and entities."""
         self.tile_group = pygame.sprite.Group()
         self.level_sprites_group = pygame.sprite.Group()  # tiles aren't included in this group
@@ -34,19 +35,31 @@ class Level:
         for row in range(len(self.array_map)):
             self.array_map[row] = [i if i < 0 else 0 for i in self.array_map[row]]
 
+        """Adding required quantity of enemies."""
+        enemies = 0
+        while enemies < enemies_quantity:
+            for y, line in enumerate(self.array_map):
+                for x, symbol in enumerate(line):
+                    if symbol == 0 and len(self.level_sprites_group) < enemies_quantity:
+                        choice = choices([0, 2], k=1, weights=[90, 10])[0]
+                        if choice == 2:
+                            self.array_map[y][x] = 2
+                            enemies += 1
+
         # TODO: you must remove this row and replace it with automatically adding '1' in grid, so we can do player spawn
         self.array_map[10][30] = 1
 
         """Player creating."""
-        self.player = convert_list_to_level(self.array_map, self.tile_group,
-                                            self.level_sprites_group, self.player_animations)
+        self.player = convert_list_to_level(screen, self.array_map, self.tile_group, self.level_sprites_group,
+                                            self.player_animations, self.level_all_sprites_group)
 
         """Adding all sprites we have in our main group of sprites."""
         for sprite in self.tile_group.sprites() + self.level_sprites_group.sprites():
             self.level_all_sprites_group.add(sprite)
 
     def draw(self, surface, screen_size):
-        self.level_sprites_group.update()  # we aren't updating tiles, cuz it's not a must
+
+        self.level_sprites_group.update(self.player)  # we aren't updating tiles, cuz it's not a must
 
         self.camera.update(self.player, screen_size)
         for sprite in self.level_all_sprites_group:
