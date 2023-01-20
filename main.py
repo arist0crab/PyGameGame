@@ -2,7 +2,6 @@
 
 import pygame
 from level_class import Level
-
 from enemy_charge import Charge
 
 # region variables, constants, and settings of the game
@@ -62,6 +61,6 @@ while running:
 
     screen.fill('black')
     level_1.draw(screen, (WIDTH, HEIGHT))
-
+    level_1.get_player().health_bar.render()
     pygame.display.update()
     pygame.display.flip()

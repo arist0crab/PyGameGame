@@ -1,4 +1,5 @@
 import pygame
+from health_bar_class import HealthBar
 
 
 class Player(pygame.sprite.Sprite):
@@ -41,6 +42,7 @@ class Player(pygame.sprite.Sprite):
         self.screen_width, self.screen_height = screen.get_size()
         self.health_bar_length = self.screen_width / 3.5
         self.health_ratio = self.max_hp / self.health_bar_length
+        self.health_bar = HealthBar(self.screen, self)
 
         self.speed = speed
         self.cords = [0, 0]
@@ -56,18 +58,6 @@ class Player(pygame.sprite.Sprite):
             self.hp = 0
             self.kill()
             # TODO: add the cutscene of dyeing process
-
-    def get_health(self, hill):
-        if self.hp < self.max_hp:
-            self.hp += hill
-        if self.hp > self.max_hp:
-            self.hp = self.max_hp
-
-    def basic_health(self):
-        pygame.draw.rect(self.screen, (255, 0, 0),
-                         (self.screen_width - 20 - self.health_bar_length, 20, self.hp / self.health_ratio, 25))
-        pygame.draw.rect(self.screen, (255, 255, 255),
-                         (self.screen_width - 20 - self.health_bar_length, 20, self.health_bar_length, 25), 4)
 
     def keys(self):
 
@@ -106,4 +96,3 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, *args):
         self.keys()
-        self.basic_health()
