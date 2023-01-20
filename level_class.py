@@ -14,10 +14,14 @@ class Level:
 
     dungeon_generation()
 
-    def __init__(self, screen, player_animations, enemies_quantity):
+    def __init__(self, screen, player_animations, enemies_quantity, FPS, clock):
         """Creating sprite groups of tiles and entities."""
         self.tile_group = pygame.sprite.Group()
         self.level_sprites_group = pygame.sprite.Group()  # tiles aren't included in this group
+        self.lava_group = pygame.sprite.Group()
+        self.group_of_empty_tiles = pygame.sprite.Group()
+        self.potion_group = pygame.sprite.Group()
+        self.enemies = pygame.sprite.Group()
 
         """
         Here is special group of sprites. It makes player drawing over the tiles and, 
@@ -46,12 +50,10 @@ class Level:
                             self.array_map[y][x] = 2
                             enemies += 1
 
-        # TODO: you must remove this row and replace it with automatically adding '1' in grid, so we can do player spawn
-        self.array_map[10][30] = 1
-
         """Player creating."""
         self.player = convert_list_to_level(screen, self.array_map, self.tile_group, self.level_sprites_group,
-                                            self.player_animations, self.level_all_sprites_group)
+                                            self.player_animations, self.level_all_sprites_group, FPS, clock,
+                                            self.lava_group, self.group_of_empty_tiles, self.potion_group, self.enemies)
 
         """Adding all sprites we have in our main group of sprites."""
         for sprite in self.tile_group.sprites() + self.level_sprites_group.sprites():

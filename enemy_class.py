@@ -28,10 +28,16 @@ class Enemy(pygame.sprite.Sprite):
         self.anim_count = 0
         self.image = self.current_anim[0]
         self.rect = self.image.get_rect()
+        self.cords = cords
         self.rect.center = (cords[0] + Tile.size[0] // 2, cords[1] + Tile.size[1] // 2)
         self.attacking = False
         self.angry_pic = pygame.transform.scale(pygame.image.load('static/attented_enemy.png'), (85, 85))
         # endregion
+
+    def get_damage(self, damage):
+        self.hp -= damage
+        if self.hp <= 0:
+            self.kill()
 
     def is_alive(self):
         return self.hp > 0
