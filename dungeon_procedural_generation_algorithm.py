@@ -3,6 +3,8 @@ Realisation of procedural dungeon generation
 Explanation to the algorithm (the first part of the video): https://www.youtube.com/watch?v=rBY2Dzej03A
 """
 
+# TODO: sometimes generation freezes on lines 44 and 45
+
 import igraph as ig
 import numpy as np
 from scipy.spatial import Delaunay
@@ -37,6 +39,7 @@ class Room:
         w, h = 0, 0
 
         while placing:
+            print('here')
             placing = False
 
             x, y = np.random.randint(PADDING, SIZE[0] - PADDING), np.random.randint(PADDING, SIZE[1] - PADDING)

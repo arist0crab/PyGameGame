@@ -2,8 +2,9 @@
 
 import pygame
 from level_class import Level
-
-from enemy_charge import Charge
+from start_screen_function import start_screen
+from end_screen_function import GLOBAL_PLAYER_SCORE
+from dungeon_procedural_generation_algorithm import dungeon_generation
 
 # region variables, constants, and settings of the game
 pygame.init()
@@ -18,37 +19,45 @@ WIDTH, HEIGHT = pygame.display.get_surface().get_size()
 running = True
 # endregion
 
+
+"""Setting enemies, lava and potions stats to make it changeable later to regulate levels difficulty."""
+# region start enemies, lava and potions quantity and stats
+enemies_quantity = 3  # maximum 3
+enemies_health = 10
+enemies_damage = 7
+enemies_vision = 225
+
+potions_chance = enemies_quantity // 3  # in percents (%)
+potions_heal = enemies_damage * 1.5
+
+lava_damage = 0.1
+# endregion
+
 hero_animations = [
     [
-        'static/player_animations/player_anim_right_1.png',
-        'static/player_animations/player_anim_right_2.png',
-        'static/player_animations/player_anim_right_1.png',
-        'static/player_animations/player_anim_right_2.png'
+        'static/player/player_going_right_1.png',
+        'static/player/player_going_right_2.png',
+        'static/player/player_going_right_1.png',
+        'static/player/player_going_right_2.png'
     ],
     [
-        'static/player_animations/player_anim_left_1.png',
-        'static/player_animations/player_anim_left_2.png',
-        'static/player_animations/player_anim_left_1.png',
-        'static/player_animations/player_anim_left_2.png'
-    ],
-    [
-        'static/player_animations/player_standing_right_1.png',
-        'static/player_animations/player_standing_right_1.png',
-        'static/player_animations/player_standing_right_2.png',
-        'static/player_animations/player_standing_right_2.png',
-    ],
-    [
-        'static/player_animations/player_standing_left_1.png',
-        'static/player_animations/player_standing_left_1.png',
-        'static/player_animations/player_standing_left_2.png',
-        'static/player_animations/player_standing_left_2.png',
+        'static/player/player_standing_right_1.png',
+        'static/player/player_standing_right_1.png',
+        'static/player/player_standing_right_2.png',
+        'static/player/player_standing_right_2.png'
     ]
 ]
 
-level_1 = Level(screen, hero_animations, 10)
-
+dungeon_generation()
+current_level = Level(
+    screen=screen, player_animations=hero_animations, enemies_quantity=enemies_quantity, FPS=FPS, clock=clock,
+    enemies_stats={'quantity': enemies_quantity, 'health': enemies_health, 'damage': enemies_damage,
+                   'vision': enemies_vision},
+    potions_stats={'chance': potions_chance, 'heal': potions_heal}, lava_damage=lava_damage
+)
 
 """Main cycle of the game"""
+start_screen(screen, clock, FPS)
 while running:
     clock.tick(FPS)
 
@@ -59,9 +68,28 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == 27:
                 running = False
-
     screen.fill('black')
-    level_1.draw(screen, (WIDTH, HEIGHT))
+    current_level.draw(screen, (WIDTH, HEIGHT))
+    if len(current_level.enemies) == 0:
+        if current_level.player.score > GLOBAL_PLAYER_SCORE:
+            GLOBAL_PLAYER_SCORE = current_level.player.score
+
+        enemies_quantity = round(enemies_quantity * 1.5) if enemies_quantity < 20 else 20
+        enemies_damage = round(enemies_damage * 1.5)
+        enemies_vision = round(enemies_vision * 1.15)
+        enemies_health = round(enemies_health * 1.5)
+        potions_heal *= enemies_damage * 1.5
+        potions_chance *= enemies_quantity // 3
+        lava_damage *= 1.1
+
+        # dungeon_generation()  # TODO: fix this with Alexey
+
+        current_level = Level(screen=screen, player_animations=hero_animations, enemies_quantity=enemies_quantity,
+                              FPS=FPS, clock=clock,
+                              enemies_stats={'quantity': enemies_quantity, 'health': enemies_health,
+                                             'damage': enemies_damage, 'vision': enemies_vision},
+                              potions_stats={'chance': potions_chance, 'heal': potions_heal},
+                              lava_damage=lava_damage)
 
     pygame.display.update()
     pygame.display.flip()

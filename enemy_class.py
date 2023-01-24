@@ -1,7 +1,7 @@
 import pygame
-from random import choice
 from tile_class import Tile
-from enemy_charge import Charge
+from enemy_charge import EnemyCharge
+from random import choice
 
 
 def distance_between_enemy_and_target(first, second):
@@ -11,10 +11,14 @@ def distance_between_enemy_and_target(first, second):
 class Enemy(pygame.sprite.Sprite):
     """Realizing Enemy class."""
 
-    def __init__(self, size, cords, stance_anim, hp, vision, damage, main_level_sprite_group, *groups):
+    def __init__(self, size, cords, stance_anim, damage_pic, hp, vision, damage, main_level_sprite_group, *groups):
         super().__init__(*groups)
 
-        self.current_anim = [pygame.transform.scale(pygame.image.load(pic), size) for pic in stance_anim]
+        flip = choice([True, False])
+        self.current_anim = [pygame.transform.flip(pygame.transform.scale(pygame.image.load(pic), size), flip, False)
+                             for pic in stance_anim]
+        self.damage_pic = pygame.transform.flip(pygame.transform.scale(pygame.image.load(damage_pic), (85, 85)),
+                                                flip, False)
         self.max_anim_count = 15
         self.hp = hp
         self.vision = vision  # radius of zone where enemy can see player
@@ -30,11 +34,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (cords[0] + Tile.size[0] // 2, cords[1] + Tile.size[1] // 2)
         self.attacking = False
-        self.angry_pic = pygame.transform.scale(pygame.image.load('static/attented_enemy.png'), (85, 85))
         # endregion
-
-    def is_alive(self):
-        return self.hp > 0
 
     def movement(self, target):
         if distance_between_enemy_and_target(self.rect.center, target.rect.center) <= self.vision:
@@ -53,16 +53,19 @@ class Enemy(pygame.sprite.Sprite):
         if not self.attacking:
             pass
         else:
-            self.image = self.angry_pic
             if self.attacking_counter == 0:
-                Charge('static/bullet.png', 10, self.rect.center, target.rect.center, 10, self.groups[0], self.mlsg)
+                EnemyCharge('static/enemies/enemy_charge.png', 10, self.rect.center, target.rect.center, 10, self.groups[0], self.mlsg)
             self.attacking_counter += 1
             if self.attacking_counter > self.attacking_period:
                 self.attacking_counter = 0
-        # TODO: normally write an attacking logic
 
-    def attack(self, target):
-        pass
+    def get_damage(self, damage, player):
+        self.hp -= damage
+        self.image = self.damage_pic
+        if self.hp <= 0:
+            self.kill()
+            player.score += 0
+            # TODO: improve it
 
     def update(self, *args):
         self.moving(args[0])
