@@ -57,7 +57,7 @@ class Room:
 
         for i in range(self.w):
             for j in range(self.h):
-                grid[self.y + j][self.x + i] = self.id
+                grid[self.x + i][self.y + j] = self.id
 
 
 def path_getting(wave_grid, end):
