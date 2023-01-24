@@ -83,7 +83,7 @@ while running:
         potions_chance += 0.5 if potions_heal + 0.5 <= 5 else 5
         lava_damage *= 1.05
 
-        dungeon_generation()  # TODO: fix this with Alexey
+        dungeon_generation()
 
         the_best_score = current_level.player.score if current_level.player.score > the_best_score else the_best_score
 
