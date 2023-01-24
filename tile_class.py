@@ -5,15 +5,14 @@ class Tile(pygame.sprite.Sprite):
 
     """Creating Tile class."""
 
-    # TODO: now Tile class use "size" of tiles as constant, I think we need to fix it later,
-    #  make it more dynamic, you know :)
-
-    size = (50, 50)
+    size = (85, 85)
     images = {
-        'wood boards 1': 'static/tiles/wood boards 1.png',
-        'wood boards 2': 'static/tiles/wood boards 2.png',
-        'carpet': 'static/tiles/carpet.png',
-        'stone floor': 'static/tiles/stone floor.png'
+        'grass_1': 'static/tiles/pink_grass_1.png',
+        'grass_2': 'static/tiles/pink_grass_2.png',
+        'grass_3': 'static/tiles/pink_grass_3.png',
+        'floor': 'static/tiles/floor.png',
+        'lava': 'static/tiles/laser.png',
+        'empty': 'static/tiles/empty.png'
     }
     for image_name in images.keys():
         images[image_name] = pygame.transform.scale(pygame.image.load(images[image_name]), size)
@@ -23,5 +22,7 @@ class Tile(pygame.sprite.Sprite):
         self.image = Tile.images[tile_name]
         self.tile_name = tile_name
         self.rect = self.image.get_rect().move(tile_position[0], tile_position[1])
+        self.mask = pygame.mask.from_surface(self.image)
 
-
+    def update(self, *args):
+        pass

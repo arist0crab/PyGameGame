@@ -3,6 +3,8 @@ Realisation of procedural dungeon generation
 Explanation to the algorithm (the first part of the video): https://www.youtube.com/watch?v=rBY2Dzej03A
 """
 
+# TODO: sometimes generation freezes on lines 44 and 45
+
 import igraph as ig
 import numpy as np
 from scipy.spatial import Delaunay
@@ -55,7 +57,7 @@ class Room:
 
         for i in range(self.w):
             for j in range(self.h):
-                grid[self.y + j][self.x + i] = self.id
+                grid[self.x + i][self.y + j] = self.id
 
 
 def path_getting(wave_grid, end):
@@ -182,6 +184,9 @@ def path_drawer(graph):
 
 def dungeon_generation():
     """ Function that runs all the dungeon generation"""
+
+    global rooms
+    rooms = []
 
     rooms_placing()
     graph = graph_generator()
