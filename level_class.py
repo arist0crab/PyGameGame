@@ -76,3 +76,6 @@ class Level:
             self.camera.apply(sprite)
 
         self.level_all_sprites_group.draw(surface)
+
+    def get_player(self):
+        return self.player

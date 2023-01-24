@@ -32,9 +32,13 @@ class Enemy(pygame.sprite.Sprite):
         self.anim_count = 0
         self.image = self.current_anim[0]
         self.rect = self.image.get_rect()
+        self.cords = cords
         self.rect.center = (cords[0] + Tile.size[0] // 2, cords[1] + Tile.size[1] // 2)
         self.attacking = False
         # endregion
+
+    def is_alive(self):
+        return self.hp > 0
 
     def movement(self, target):
         if distance_between_enemy_and_target(self.rect.center, target.rect.center) <= self.vision:

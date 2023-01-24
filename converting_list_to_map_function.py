@@ -1,7 +1,6 @@
 from tile_class import Tile
 from random import choices
 from player_class import Player
-# from entitys_classes.base_enemy_class import BaseEnemy
 from enemy_class import Enemy
 from heal_potion_class import HealPotion
 import pygame

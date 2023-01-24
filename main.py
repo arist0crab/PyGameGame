@@ -91,5 +91,8 @@ while running:
                               potions_stats={'chance': potions_chance, 'heal': potions_heal},
                               lava_damage=lava_damage)
 
+    current_level.draw(screen, (WIDTH, HEIGHT))
+    current_level.get_player().health_bar.render()
+    current_level.get_player().stamina_bar.render()
     pygame.display.update()
     pygame.display.flip()
