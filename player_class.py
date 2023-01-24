@@ -134,6 +134,14 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             self.cords[1] += self.speed
             self.direction = 'down'
+        elif not any([
+            keys[pygame.K_d], keys[pygame.K_a], keys[pygame.K_w], keys[pygame.K_s],
+            keys[pygame.K_RIGHT], keys[pygame.K_LEFT], keys[pygame.K_UP], keys[pygame.K_DOWN]
+                      ]):
+            if self.current_anim == self.anim_left:
+                self.current_anim = self.stance_left
+            elif self.current_anim == self.anim_right:
+                self.current_anim = self.stance_right
         # endregion
 
         if mouse[2] and self.stamina >= self.shooting_stamina:
@@ -155,14 +163,6 @@ class Player(pygame.sprite.Sprite):
             self.circular_attack()
         if not mouse[0]:
             self.rmb_locker = True
-        elif not any([
-            keys[pygame.K_d], keys[pygame.K_a], keys[pygame.K_w], keys[pygame.K_s],
-            keys[pygame.K_RIGHT], keys[pygame.K_LEFT], keys[pygame.K_UP], keys[pygame.K_DOWN]
-                      ]):
-            if self.current_anim == self.anim_left:
-                self.current_anim = self.stance_left
-            elif self.current_anim == self.anim_right:
-                self.current_anim = self.stance_right
 
         self.anim_count += 1
 

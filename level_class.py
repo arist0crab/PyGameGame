@@ -50,7 +50,7 @@ class Level:
             for y, line in enumerate(self.array_map):
                 for x, symbol in enumerate(line):
                     if symbol == 0 and enemies < enemies_quantity:
-                        choice = choices([0, 2], k=1, weights=[90, 10])[0]
+                        choice = choices([0, 2], k=1, weights=[95, 5])[0]
                         if choice == 2:
                             self.array_map[y][x] = 2
                             enemies += 1

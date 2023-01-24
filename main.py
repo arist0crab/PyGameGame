@@ -74,7 +74,6 @@ while running:
     if len(current_level.enemies) == 0:
         if current_level.player.score > the_best_score:
             the_best_score = current_level.player.score if current_level.player.score > 0 else the_best_score
-        print(the_best_score)
 
         enemies_quantity = round(enemies_quantity * 1.5) if round(enemies_quantity * 1.5) <= 20 else 20
         enemies_damage = round(enemies_damage * 1.5)
