@@ -10,13 +10,12 @@ pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.mouse.set_visible(False)  # making mouse invisible
-# size = width, height = 500, 500
-# screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 FPS = 30
 WIDTH, HEIGHT = pygame.display.get_surface().get_size()
 running = True
 the_best_score = 0
+player_current_health = 100
 # endregion
 
 
@@ -54,7 +53,7 @@ current_level = Level(
     enemies_stats={'quantity': enemies_quantity, 'health': enemies_health, 'damage': enemies_damage,
                    'vision': enemies_vision},
     potions_stats={'chance': potions_chance, 'heal': potions_heal}, lava_damage=lava_damage,
-    the_best_score=the_best_score
+    the_best_score=the_best_score, player_current_health=player_current_health
 )
 
 """Main cycle of the game"""
@@ -80,19 +79,21 @@ while running:
         enemies_vision = round(enemies_vision * 1.15)
         enemies_health = round(enemies_health * 1.5)
         potions_heal = enemies_damage * 1.5 if enemies_damage * 1.5 <= 20 else 20
-        potions_chance += 0.5 if potions_heal + 0.5 <= 5 else 5
+        potions_chance += 0.5 if potions_chance + 0.5 <= 3 else 0
         lava_damage *= 1.05
 
         dungeon_generation()
 
         the_best_score = current_level.player.score if current_level.player.score > the_best_score else the_best_score
+        player_current_health = current_level.player.hp
 
         current_level = Level(screen=screen, player_animations=hero_animations, enemies_quantity=enemies_quantity,
                               FPS=FPS, clock=clock,
                               enemies_stats={'quantity': enemies_quantity, 'health': enemies_health,
                                              'damage': enemies_damage, 'vision': enemies_vision},
                               potions_stats={'chance': potions_chance, 'heal': potions_heal},
-                              lava_damage=lava_damage, the_best_score=the_best_score)
+                              lava_damage=lava_damage, the_best_score=the_best_score,
+                              player_current_health=player_current_health)
 
     current_level.draw(screen, (WIDTH, HEIGHT))
     current_level.get_player().health_bar.render()

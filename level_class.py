@@ -1,7 +1,7 @@
 import pygame
 
 from converting_list_to_map_function import convert_list_to_level
-from dungeon_procedural_generation_algorithm import dungeon_generation, grid
+from dungeon_procedural_generation_algorithm import grid
 from camera_class import Camera
 from random import choices
 
@@ -13,7 +13,7 @@ class Level:
     """
 
     def __init__(self, screen, player_animations, enemies_quantity, FPS, clock,
-                 enemies_stats, potions_stats, lava_damage, the_best_score):
+                 enemies_stats, potions_stats, lava_damage, the_best_score, player_current_health):
 
         """Creating sprite groups of tiles and entities."""
         self.tile_group = pygame.sprite.Group()
@@ -36,6 +36,7 @@ class Level:
 
         self.array_map = grid
         self.player_animations = player_animations
+        self.player_current_health = player_current_health
 
         """Creating the camera of the level."""
         self.camera = Camera()
@@ -61,7 +62,8 @@ class Level:
         self.player = convert_list_to_level(screen, self.array_map, self.tile_group, self.level_sprites_group,
                                             self.player_animations, self.level_all_sprites_group, FPS, clock,
                                             self.lava_group, self.group_of_empty_tiles, self.potion_group, self.enemies,
-                                            self.enemies_stats, self.potions_stats, self.lava_damage, the_best_score)
+                                            self.enemies_stats, self.potions_stats, self.lava_damage, the_best_score,
+                                            self.player_current_health)
 
         """Adding all sprites we have in our main group of sprites."""
         for sprite in self.tile_group.sprites() + self.level_sprites_group.sprites():
