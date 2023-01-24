@@ -68,8 +68,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.damage_pic
         if self.hp <= 0:
             self.kill()
-            player.score += 0
-            # TODO: improve it
+            player.score += round((self.damage + self.vision + self.hp) / 30, 2)
 
     def update(self, *args):
         self.moving(args[0])

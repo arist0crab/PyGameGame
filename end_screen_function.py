@@ -1,18 +1,16 @@
 import pygame
 import sys
 
-GLOBAL_PLAYER_SCORE = 0
-
 
 def terminate():
     pygame.quit()
     sys.exit()
 
 
-def end_screen(screen, clock, FPS):
+def end_screen(screen, clock, FPS, the_best_score):
     intro_text = ["Congratulations.",
                   "You are dead.",
-                  f"Your score in this session: {GLOBAL_PLAYER_SCORE}",
+                  f"Your the best score in this session: {the_best_score}",
                   "Guess how to escape. See ya."
                   ]
 

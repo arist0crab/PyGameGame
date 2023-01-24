@@ -39,7 +39,6 @@ class Room:
         w, h = 0, 0
 
         while placing:
-            print('here')
             placing = False
 
             x, y = np.random.randint(PADDING, SIZE[0] - PADDING), np.random.randint(PADDING, SIZE[1] - PADDING)

@@ -13,7 +13,8 @@ class Player(pygame.sprite.Sprite):
     size = (70, 50)
 
     def __init__(self, screen, cords, speed, hp, animations, level_tile_group, FPS, clock, lava_tiles_group,
-                 empty_group, potion_group, enemies_group, lava_damage, main_sprites_group, *groups):
+                 empty_group, potion_group, enemies_group, lava_damage, main_sprites_group, the_best_score,
+                 *groups):
 
         super().__init__(*groups)
 
@@ -35,7 +36,7 @@ class Player(pygame.sprite.Sprite):
         self.stance_left = [pygame.transform.flip(pic, True, False) for pic in self.stance_right]
         self.current_anim = self.stance_right
         self.direction = 'right'
-        self.max_anim_count = 7
+        self.max_anim_count = 13
         self.anim_count = 0
         # endregion
 
@@ -57,10 +58,6 @@ class Player(pygame.sprite.Sprite):
 
         self.enemy_group = enemies_group
 
-        self.circular_attack_range = 500
-        self.circular_attack_damage = 25
-        self.circular_attack_stamina = 15
-
         self.last_stamina_recovery = pygame.time.get_ticks() / 1000
         self.stamina_recovery_speed = 0.5
         self.stamina = 100
@@ -69,7 +66,13 @@ class Player(pygame.sprite.Sprite):
         self.stamina_ratio = self.max_stamina / self.stamina_bar_length
         self.stamina_bar = StaminaBar(self.screen, self)
 
+        self.circular_attack_range = 125
+        self.circular_attack_damage = 15
+        self.circular_attack_stamina = self.stamina // 4
+        self.shooting_stamina = self.stamina // 3 * 2
+
         self.score = 0  # score that shows quantity of killed enemies
+        self.the_best_score = the_best_score
 
         self.speed = speed
         self.cords = [0, 0]
@@ -95,14 +98,13 @@ class Player(pygame.sprite.Sprite):
         if self.hp <= 0:
             self.hp = 0
             self.kill()
-            end_screen(self.screen, self.clock, self.FPS)
+            end_screen(self.screen, self.clock, self.FPS,
+                       self.score if self.score > self.the_best_score else self.the_best_score)
 
     def circular_attack(self):
         for enemy in self.enemy_group:
-            print(self.get_distance(enemy))
             if self.get_distance(enemy) <= self.circular_attack_range:
-                print(enemy)
-                enemy.get_damage(self.circular_attack_damage)
+                enemy.get_damage(self.circular_attack_damage, self)
 
     def shoot(self, speed):
         PlayerCharge(self.rect.center, speed,
@@ -134,7 +136,8 @@ class Player(pygame.sprite.Sprite):
             self.direction = 'down'
         # endregion
 
-        if keys[pygame.K_u]:
+        if mouse[2] and self.stamina >= self.shooting_stamina:
+            self.stamina -= self.shooting_stamina
             if self.cords[0] or self.cords[1]:
                 self.shoot((self.cords[0] * 2, self.cords[1] * 2))
             else:
@@ -188,3 +191,8 @@ class Player(pygame.sprite.Sprite):
             self.last_stamina_recovery = pygame.time.get_ticks() / 1000
             self.stamina += 1
         self.keys()
+
+    def get_health(self, heal):
+        self.hp += heal
+        if self.hp >= self.max_hp:
+            self.hp = self.max_hp

@@ -13,7 +13,7 @@ class Level:
     """
 
     def __init__(self, screen, player_animations, enemies_quantity, FPS, clock,
-                 enemies_stats, potions_stats, lava_damage):
+                 enemies_stats, potions_stats, lava_damage, the_best_score):
 
         """Creating sprite groups of tiles and entities."""
         self.tile_group = pygame.sprite.Group()
@@ -61,7 +61,7 @@ class Level:
         self.player = convert_list_to_level(screen, self.array_map, self.tile_group, self.level_sprites_group,
                                             self.player_animations, self.level_all_sprites_group, FPS, clock,
                                             self.lava_group, self.group_of_empty_tiles, self.potion_group, self.enemies,
-                                            self.enemies_stats, self.potions_stats, self.lava_damage)
+                                            self.enemies_stats, self.potions_stats, self.lava_damage, the_best_score)
 
         """Adding all sprites we have in our main group of sprites."""
         for sprite in self.tile_group.sprites() + self.level_sprites_group.sprites():

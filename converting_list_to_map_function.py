@@ -8,9 +8,10 @@ import pygame
 
 def convert_list_to_level(screen, map_array, tile_group, level_sprites_group, player_animations,
                           main_level_sprite_group, FPS, clock, lava_group, empty_group, potion_group,
-                          enemies_group, enemies_stats, potions_stats, lava_damage):
+                          enemies_group, enemies_stats, potions_stats, lava_damage, the_best_score):
     """
     parameters of function:
+    :param the_best_score: the best player global score
     :param lava_damage: lava damage on current level
     :param potions_stats: setting of potions on current level
     :param enemies_stats: settings of enemies on current level
@@ -47,8 +48,8 @@ def convert_list_to_level(screen, map_array, tile_group, level_sprites_group, pl
                     hero = Player(
                         screen,
                         (x * Tile.size[0] + Tile.size[0] / 2 - 5.5, y * Tile.size[1] + Tile.size[1] / 2),
-                        10, 100, player_animations, tile_group, FPS, clock, lava_group, empty_group, potion_group,
-                        enemies_group, lava_damage, main_level_sprite_group,
+                        6, 100, player_animations, tile_group, FPS, clock, lava_group, empty_group, potion_group,
+                        enemies_group, lava_damage, main_level_sprite_group, the_best_score,
                         level_sprites_group
                     )
                 else:
