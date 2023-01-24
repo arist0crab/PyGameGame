@@ -185,6 +185,9 @@ def path_drawer(graph):
 def dungeon_generation():
     """ Function that runs all the dungeon generation"""
 
+    global rooms
+    rooms = []
+
     rooms_placing()
     graph = graph_generator()
     triangulated_graph = delone_triangulation(graph)
