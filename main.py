@@ -56,7 +56,7 @@ current_level = Level(
     enemies_stats={'quantity': enemies_quantity, 'health': enemies_health, 'damage': enemies_damage,
                    'vision': enemies_vision},
     potions_stats={'chance': potions_chance, 'heal': potions_heal}, lava_damage=lava_damage,
-    the_best_score=the_best_score
+    the_best_score=the_best_score, player_current_health=100
 )
 
 
@@ -125,7 +125,7 @@ def play_cycle():
                               enemies_stats={'quantity': enemies_quantity, 'health': enemies_health,
                                              'damage': enemies_damage, 'vision': enemies_vision},
                               potions_stats={'chance': potions_chance, 'heal': potions_heal},
-                              lava_damage=lava_damage, the_best_score=the_best_score)
+                              lava_damage=lava_damage, the_best_score=the_best_score, player_current_health=current_level.player.hp)
 
     current_level.draw(screen, (WIDTH, HEIGHT))
     current_level.get_player().health_bar.render()
