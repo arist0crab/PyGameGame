@@ -19,7 +19,7 @@ class Enemy(pygame.sprite.Sprite):
                              for pic in stance_anim]
         self.damage_pic = pygame.transform.flip(pygame.transform.scale(pygame.image.load(damage_pic), (85, 85)),
                                                 flip, False)
-        self.max_anim_count = 15
+        self.max_anim_count = 30
         self.hp = hp
         self.vision = vision  # radius of zone where enemy can see player
         self.damage = damage
@@ -58,7 +58,8 @@ class Enemy(pygame.sprite.Sprite):
             pass
         else:
             if self.attacking_counter == 0:
-                EnemyCharge('static/enemies/enemy_charge.png', 10, self.rect.center, target.rect.center, 10, self.groups[0], self.mlsg)
+                EnemyCharge('static/enemies/enemy_charge.png', 10, self.rect.center, target.rect.center, 10,
+                            self.groups[0], self.mlsg)
             self.attacking_counter += 1
             if self.attacking_counter > self.attacking_period:
                 self.attacking_counter = 0

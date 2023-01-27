@@ -30,6 +30,7 @@ class Player(pygame.sprite.Sprite):
         """Here we're changing size of player pictures (check size parameter)."""
         animations = [[pygame.transform.scale(pygame.image.load(pic), Player.size) for pic in anim]
                       for anim in animations]
+
         # region variables of animations only
         self.anim_right, self.stance_right = animations
         self.anim_left = [pygame.transform.flip(pic, True, False) for pic in self.anim_right]
@@ -90,7 +91,8 @@ class Player(pygame.sprite.Sprite):
         self._layer = 1
 
     def get_distance(self, target):
-        return math.sqrt((self.rect.center[0] - target.rect.center[0]) ** 2 + (self.rect.center[1] - target.rect.center[1]) ** 2)
+        return math.sqrt((self.rect.center[0] - target.rect.center[0]) ** 2 +
+                         (self.rect.center[1] - target.rect.center[1]) ** 2)
 
     def get_damage(self, damage):
         if self.hp > 0:
@@ -187,7 +189,8 @@ class Player(pygame.sprite.Sprite):
                 self.get_health(sprite.heal)
 
     def update(self, *args):
-        if pygame.time.get_ticks() - self.last_stamina_recovery >= self.stamina_recovery_speed and self.stamina < self.max_stamina:
+        if pygame.time.get_ticks() - self.last_stamina_recovery >= self.stamina_recovery_speed and \
+                self.stamina < self.max_stamina:
             self.last_stamina_recovery = pygame.time.get_ticks() / 1000
             self.stamina += 1
         self.keys()

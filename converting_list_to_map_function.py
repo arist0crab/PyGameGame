@@ -3,14 +3,15 @@ from random import choices
 from player_class import Player
 from enemy_class import Enemy
 from heal_potion_class import HealPotion
-import pygame
 
 
 def convert_list_to_level(screen, map_array, tile_group, level_sprites_group, player_animations,
                           main_level_sprite_group, FPS, clock, lava_group, empty_group, potion_group,
-                          enemies_group, enemies_stats, potions_stats, lava_damage, the_best_score):
+                          enemies_group, enemies_stats, potions_stats, lava_damage, the_best_score,
+                          player_current_health):
     """
     parameters of function:
+    :param player_current_health: current health of player
     :param the_best_score: the best player global score
     :param lava_damage: lava damage on current level
     :param potions_stats: setting of potions on current level
@@ -48,7 +49,8 @@ def convert_list_to_level(screen, map_array, tile_group, level_sprites_group, pl
                     hero = Player(
                         screen,
                         (x * Tile.size[0] + Tile.size[0] / 2 - 5.5, y * Tile.size[1] + Tile.size[1] / 2),
-                        6, 100, player_animations, tile_group, FPS, clock, lava_group, empty_group, potion_group,
+                        6, player_current_health, player_animations, tile_group, FPS, clock, lava_group, empty_group,
+                        potion_group,
                         enemies_group, lava_damage, main_level_sprite_group, the_best_score,
                         level_sprites_group
                     )

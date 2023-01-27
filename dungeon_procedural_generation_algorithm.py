@@ -3,8 +3,6 @@ Realisation of procedural dungeon generation
 Explanation to the algorithm (the first part of the video): https://www.youtube.com/watch?v=rBY2Dzej03A
 """
 
-# TODO: sometimes generation freezes on lines 44 and 45
-
 import igraph as ig
 import numpy as np
 from scipy.spatial import Delaunay
@@ -173,7 +171,6 @@ def path_drawer(graph):
     layout_obj = graph.layout()
     x, y = np.array(layout_obj.coords).T
     for i, edge in enumerate(graph.es):
-        print(edge.source, edge.target)
         from_v = (x[edge.source], y[edge.source])
         to_v = (x[edge.target], y[edge.target])
         path = pathfinding(from_v, to_v)
@@ -194,5 +191,4 @@ def dungeon_generation():
     minimal_spanning_tree = minimal_spanning_tree_search(triangulated_graph)
     complete_graph = random_edges_adder(triangulated_graph, minimal_spanning_tree)
     path_drawer(complete_graph)
-    print(complete_graph)
     return rooms

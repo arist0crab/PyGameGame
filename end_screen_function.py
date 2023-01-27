@@ -10,7 +10,7 @@ def terminate():
 def end_screen(screen, clock, FPS, the_best_score):
     intro_text = ["Congratulations.",
                   "You are dead.",
-                  f"Your the best score in this session: {the_best_score}",
+                  f"Your best score in this session: {round(the_best_score, )}",
                   "Guess how to escape. See ya."
                   ]
 
